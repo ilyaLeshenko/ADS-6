@@ -4,17 +4,15 @@
 
 template<typename T>
 class TPQueue {
-private:
+ private:
     struct Node {
         T data;
         Node* next;
-        Node(T data) : data(data), next(nullptr) {}
+        explicit Node(T data) : data(data), next(nullptr) {}
     };
-    
     Node* head;
     Node* tail;
-
-public:
+ public:
     TPQueue() : head(nullptr), tail(nullptr) {}
     ~TPQueue() {
         while (head) {
@@ -23,7 +21,6 @@ public:
             delete temp;
         }
     }
-
     void push(const T& value) {
         Node* newNode = new Node(value);
         if (!head || value.prior > head->data.prior) {
@@ -36,7 +33,6 @@ public:
         while (current->next && current->next->data.prior >= value.prior) {
             current = current->next;
         }
-
         newNode->next = current->next;
         current->next = newNode;
         if (!newNode->next) {
@@ -46,13 +42,13 @@ public:
     T pop() {
         if (!head) {
             throw "Queue is empty!";
-        }        
+        }
         Node* temp = head;
         T result = temp->data;
-        head = head->next;        
+        head = head->next;
         if (!head) {
             tail = nullptr;
-        }        
+        }
         delete temp;
         return result;
     }
